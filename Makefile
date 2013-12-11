@@ -14,7 +14,7 @@ changes:
 
 git: changes
 	git add .
-	git commit -m "$$(date +%Y-%m-%d): $$(git status -s | wc -l | tr -d ' ') changed"
+	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- {1,2,3}*.csv | wc -l | tr -d ' ') changed"
 	git push
 
 install:
