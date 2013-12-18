@@ -23,6 +23,7 @@ git: changes
 	git add *.csv
 	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- {1,2,3}*.csv | wc -l | tr -d ' ') changed"
 	git push
+	echo $$(git rev-parse HEAD) | ruby github-comment-with-images.rb
 
 install:
 	@git --version 2&> /dev/null; if [ $$? -eq 127 ]; then echo "Install git"; fi
