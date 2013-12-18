@@ -20,7 +20,7 @@ def commit_comment!(body, file, position)
 end
 
 def comment_body(id, name)
-  "![#{name}](//api.artsmia.org/images/#{id}/600/medium.jpg)"
+  "[![#{name}](//api.artsmia.org/images/#{id}/600/medium.jpg)](//collections.artsmia.org/?page=simple&id=#{id})"
 end
 
 commit.data.files.each do |file|
