@@ -1,0 +1,39 @@
+require 'rubygems'
+require 'csv'
+require 'octokit'
+
+require 'faraday-http-cache'
+Octokit.middleware = Faraday::Builder.new do |builder|
+  builder.use Faraday::HttpCache
+  builder.use Octokit::Response::RaiseError
+  builder.adapter Faraday.default_adapter
+end
+
+$ok = Octokit::Client.new :netrc => true
+$ok.login
+$sha = $stdin.read.chomp
+
+commit = $ok.repo('kjell/artsmia-galleries').rels[:commits].get(uri: {sha: $sha})
+
+def commit_comment!(body, file, position)
+  $ok.create_commit_comment('kjell/artsmia-galleries', $sha, body, file, nil, position)
+end
+
+def comment_body(id, name)
+  "![#{name}](//api.artsmia.org/images/#{id}/600/medium.jpg)"
+end
+
+commit.data.files.each do |file|
+  puts file.filename
+  file.patch.lines.map.with_index do |line, index|
+    if _csv = line[/^[-+](\d.*)/, 1] # it's an addition or deletion and has an object id
+      csv = CSV.parse(_csv).shift
+      csv << index
+    end
+  end.compact.group_by {|id, _| id}.each do |id, rows|
+    row = rows.last # if it was both removed and added, only post the image once
+    p rows.last
+    commit_comment!(comment_body(id, row[1]), file.filename, row.last)
+  end
+  puts "\n\n"
+end
