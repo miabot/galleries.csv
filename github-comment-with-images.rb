@@ -14,9 +14,14 @@ $ok.login
 $sha = $stdin.read.chomp
 
 commit = $ok.repo('kjell/artsmia-galleries').rels[:commits].get(uri: {sha: $sha})
+$existing_comments = commit.data.rels[:comments].get.data
 
 def commit_comment!(body, file, position)
-  $ok.create_commit_comment('kjell/artsmia-galleries', $sha, body, file, nil, position)
+  if comment = $existing_comments.select {|c| c.path == file && c.position == position }.shift
+    $ok.update_commit_comment('kjell/artsmia-galleries', comment.id, body)
+  else
+    $ok.create_commit_comment('kjell/artsmia-galleries', $sha, body, file, nil, position)
+  end
 end
 
 def comment_body(id, name)
