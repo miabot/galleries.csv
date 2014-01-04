@@ -9,19 +9,19 @@ csv:
 		| sed 's/\["no results"\]/{"objects":[]}/' \
 		| jq '.objects' \
 		| json2csv -f id,title,artist,date,room \
-		| sort -g | uniq > $$gallery.csv; \
+		| sort -g | uniq > csv/$$gallery.csv; \
 	done
 
 index:
-	cat *.csv | sort -g | uniq > index.csv
+	cat csv/*.csv | sort -g | uniq > index.csv
 
 changes:
 	@git diff-index --exit-code --quiet HEAD; \
 		if [ $$? -eq 0 ]; then echo "no changes"; exit 1; fi
 
 git: changes
-	git add *.csv
-	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- [1-3]*.csv | wc -l | tr -d ' ') changed"
+	git add csv/*.csv
+	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- csv/[1-3]*.csv | wc -l | tr -d ' ') changed"
 	git push
 
 install:
