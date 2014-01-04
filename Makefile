@@ -25,7 +25,6 @@ git: changes
 	git push
 
 install:
-	@git --version 2&> /dev/null; if [ $$? -eq 127 ]; then echo "Install git"; fi
-	@curl --version 2&> /dev/null; if [ $$? -eq 127 ]; then echo "Install curl"; fi
-	@jq --version 2&> /dev/null; if [ $$? -eq 127 ]; then brew install jq; fi
-	@json2csv --version 2&> /dev/null; if [ $$? -eq 127 ]; then npm install -g json2csv; fi
+	@echo "if you want to run this:" \
+		"install git, curl, jq (`brew install jq` or stedolan.github.io/jq/) and" \
+		"json2csv (`npm install json2csv -g`)"
