@@ -16,14 +16,14 @@ $ok.login
 
 def commit_comment!(body, file, position)
   if comment = $existing_comments.select {|c| c.path == file && c.position == position }.shift
-    $ok.update_commit_comment('kjell/artsmia-galleries', comment.id, body)
+    $ok.update_commit_comment(ENV['REPO'], comment.id, body)
   else
-    $ok.create_commit_comment('kjell/artsmia-galleries', $sha, body, file, nil, position)
+    $ok.create_commit_comment(ENV['REPO'], $sha, body, file, nil, position)
   end
 end
 
 def comment_body(id, name)
-  "[![#{name}](//api.artsmia.org/images/#{id}/600/medium.jpg)](//collections.artsmia.org/?page=simple&id=#{id})"
+  "[![#{name}](http://api.artsmia.org/images/#{id}/600/medium.jpg)](http://collections.artsmia.org/?page=simple&id=#{id})"
 end
 
 def annotate_commit_with_images(commit)
@@ -45,9 +45,10 @@ end
 post '/' do
   push = JSON.parse(params[:payload])
 
+
   push["commits"].map do |commit|
     $sha = commit['id']
-    commit = $ok.repo('kjell/artsmia-galleries').rels[:commits].get(uri: {sha: $sha})
+    commit = $ok.repo(ENV['REPO']).rels[:commits].get(uri: {sha: $sha})
     $existing_comments = commit.data.rels[:comments].get.data
     annotate_commit_with_images(commit)
     $sha
