@@ -20,8 +20,8 @@ changes:
 		if [ $$? -eq 0 ]; then echo "no changes"; exit 1; fi
 
 git: changes
-	git add *.csv
-	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- [1-3]*.csv | wc -l | tr -d ' ') changed"
+	git add *.csv galleries/*.csv
+	git commit -m "$$(date +%Y-%m-%d): $$(git status -s -- galleries/[1-3]*.csv | wc -l | tr -d ' ') changed"
 	git push
 
 install:
