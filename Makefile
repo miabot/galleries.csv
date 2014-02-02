@@ -28,3 +28,6 @@ install:
 	@echo "if you want to run this:" \
 		"install git, curl, jq (`brew install jq` or stedolan.github.io/jq/) and" \
 		"json2csv (`npm install json2csv -g`)"
+
+deploy_hook:
+	git push heroku `git subtree split --prefix hook`:master -f
