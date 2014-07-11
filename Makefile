@@ -16,7 +16,7 @@ index:
 	cat galleries/*.csv | sort -g | uniq > index.csv
 
 changes:
-	@git diff-index --exit-code --quiet HEAD; \
+	@git diff-index --exit-code --quiet HEAD -- galleries index.csv; \
 		if [ $$? -eq 0 ]; then echo "no changes"; exit 1; fi
 
 git: changes
