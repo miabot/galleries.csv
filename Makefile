@@ -37,10 +37,11 @@ redis:
 	@for gal in $(gs); do \
 		echo G$$gal; \
 		tag=gallery:$$gal:objects; \
-		redis-cli $(redis-conf) del $$tag > /dev/null; \
-		tail -n+2 galleries/$$gal.csv | csvcut -c1 | while read obj; do \
-			echo $$obj "\c"; \
-			redis-cli $(redis-conf) sadd $$tag $$obj > /dev/null; \
+		objects=$$(tail -n+2 galleries/$$gal.csv | csvcut -c1); \
+		echo $$objects; \
+		for host in $(redises); do \
+			redis-cli -h $$host del $$tag > /dev/null; \
+			redis-cli -h $$host sadd $$tag $$objects > /dev/null; \
 		done; \
-		echo "\n"; \
+		echo; \
 	done
