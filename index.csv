@@ -3440,7 +3440,7 @@
 46241,"Money Tree",null,null,"G201"
 46250,"Pillow",null,null,"G204"
 46252,"Jar (kuan)",null,null,"G204"
-46297,"Cosmetic Case (Lien)",null,"c. 100 B.C.-c. A.D. 100","G215"
+46297,"Cosmetic Case (Lien)",null,"c. 100 B.C.E-c. 100 CE","G215"
 46324,"Cosmetic Container",null,"c. 100 B.C.-c. A.D. 200","G215"
 46326,"Cosmetic Container",null,"c. 100 B.C.-c. A.D. 200","G215"
 46328,"Cosmetic Container",null,"c. 100 B.C.-c. A.D. 200","G215"
@@ -4734,3 +4734,4 @@
 120350,"Mirror #2","Mathew Zefeldt","2014","G265"
 120351,"Mirror #3","Mathew Zefeldt","2014","G265"
 120352,"Mirror #1","Mathew Zefeldt","2014","G265"
+120390,"Italian Style: Fashion Since 1945",null,null,"G266-G274"
